@@ -7,10 +7,10 @@
 
 	@vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
+<body class='bg-gray-50'>
     @include('layouts.navbar')
 
-    <main>
+    <main class='max-w-[1200px] m-auto p-4'>
         @yield('content')
     </main>
 </body>
