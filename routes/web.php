@@ -13,5 +13,7 @@ Route::get('/contact', function () {
 });
 
 Route::get('/students', [StudentsController::class, 'index']);
+Route::get('/students/{id}', [StudentsController::class, 'show']);
 
 Route::get('/professors', [ProfessorsController::class, 'index']);
+Route::get('/professors/{id}', [ProfessorsController::class, 'show']);

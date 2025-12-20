@@ -28,6 +28,20 @@ class StudentsController extends Controller
             }
         }
 
-        return view('students', ['students' => $students]);
+        return view('students.index', ['students' => $students]);
+    }
+
+    public function show(string $id): View {
+        $students = $this->students;
+
+        $found_student = array_find($students, function ($student) use ($id) {
+            return $student['id'] === $id;
+        });
+
+        if ($found_student !== null) {
+            return view('students.show', ['student' => $found_student]);
+        }
+
+        return view('students.show', ['student' => ['id' => 'undefined', 'name' => 'undefined', 'dept' => 'undefined']]);
     }
 }

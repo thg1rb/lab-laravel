@@ -29,6 +29,20 @@ class ProfessorsController extends Controller
             }
         }
 
-        return view('professors', ['professors' => $professors]);
+        return view('professors.index', ['professors' => $professors]);
+    }
+
+    public function show(string $id): View {
+        $professors = $this->professors;
+
+        $found_professor = array_find($professors, function ($professor) use ($id) {
+            return $professor['id'] === $id;
+        });
+
+        if ($found_professor !== null) {
+            return view('professors.show', ['professor' => $found_professor]);
+        }
+
+        return view('professors.show', ['professor' => ['id' => 'undefined', 'name' => 'undefined', 'dept' => 'undefined']]);
     }
 }

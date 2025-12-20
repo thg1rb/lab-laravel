@@ -7,11 +7,11 @@
         </h1>
         <div class="w-full grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-5">
             @foreach ($professors as $professor)
-                <div class="bg-white hover:text-white hover:bg-red-600 border hover:border-0 p-4 rounded-lg transition-all hover:scale-105 shadow-md hover:shadow-lg cursor-pointer">
+                <a href="/professors/{{$professor['id']}}" class="bg-white hover:text-white hover:bg-red-600 border hover:border-0 p-4 rounded-lg transition-all hover:scale-105 shadow-md hover:shadow-lg cursor-pointer">
                     <h2 class="font-bold">ID: {{ $professor['id'] }}</h2>
                     <p>Name: {{ $professor['name'] }}</p>
                     <p>Department: {{ $professor['dept'] }}</p>
-                </div>
+                </a>
             @endforeach
         </div>
     </div>
