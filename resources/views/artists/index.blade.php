@@ -5,6 +5,13 @@
         <h1 class='text-2xl my-4'>
             Artist List
         </h1>
+
+        @can('create', \App\Models\Artist::class)
+        <div class=''>
+            <a href="{{ route('artists.create') }}">+ New Artist</a>
+        </div>
+        @endcan
+
         <table>
             <thead>
                 <tr>

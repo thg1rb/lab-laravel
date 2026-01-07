@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Artist;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
 
 class ArtistController extends Controller
 {
@@ -23,6 +25,7 @@ class ArtistController extends Controller
      */
     public function create()
     {
+        Gate::authorize('create', Artist::class);
         return view('artists.create');
     }
 
@@ -31,11 +34,12 @@ class ArtistController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('create', Artist::class);
         $name = $request->input('name');
 
-        if (empty($name)) {
-            abort(400);
-        }
+        $request->validate([
+            'name' => ['required', 'min:3', 'max:255'],
+        ]);
 
         $artist = new Artist();
         $artist->name = $name;
@@ -60,7 +64,8 @@ class ArtistController extends Controller
      */
     public function edit(Artist $artist)
     {
-        return ['artist' => $artist, 'route->name' => 'artists.edit'];
+        Gate::authorize('update', $artist);
+        // return view('artists.edit', ) // TODO:
     }
 
     /**
@@ -68,7 +73,21 @@ class ArtistController extends Controller
      */
     public function update(Request $request, Artist $artist)
     {
-        //
+        Gate::authorize('update', $artist);
+
+        $request->validate([
+            'name' => ['required', 'min:3', 'max:255'],
+            Rule::unique('artists', 'name')->ignore($artist),
+        ], [
+            'name.required' => 'ต้องการชื่อของศิลปิน',
+            'name.unique' => "ชื่อ :input นี้มีอยู่ในระบบแล้ว"
+        ]);
+
+        $name = $request->input('name');
+        $artist->name = $name;
+        $artist->save();
+
+        return redirect()->route('artists.show', ['artist' => $artist]);
     }
 
     /**
@@ -76,6 +95,6 @@ class ArtistController extends Controller
      */
     public function destroy(Artist $artist)
     {
-        //
+        Gate::authorize('delete', Artist::class);
     }
 }

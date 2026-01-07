@@ -6,6 +6,11 @@
         @csrf
         <div>
             <label for="name">Name</label>
+            @error('name')
+            <p class="text-red-500">
+                {{$message}}
+            </p>
+            @enderror
             <input type="text" name="name" id="name" class="border border-gray-900 rounded-xl p-2">
         </div>
 
